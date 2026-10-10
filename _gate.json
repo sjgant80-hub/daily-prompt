@@ -1,0 +1,13 @@
+mutation gate: daily.mjs · tests: node --test daily.test.mjs …
+{
+  "total": 3,
+  "capped": false,
+  "killed": 3,
+  "survived": [],
+  "ignored": [],
+  "rejectedExemptions": [],
+  "score": 1,
+  "clean": true
+}
+
+✓ 3/3 killed — no test-theatre.

@@ -1,0 +1,20 @@
+name: gate
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: unit suite
+        run: node --test daily.test.mjs
+      - name: witness gates the daily kernel
+        run: node vendor/witness/witness.mjs mutate daily.mjs --cap 400 --timeout 120000 --test node --test daily.test.mjs

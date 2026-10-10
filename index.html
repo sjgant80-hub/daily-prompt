@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Daily Prompt</title>
+<meta name="description" content="One genuinely useful AI system prompt, free, every day. The kind people sell $297 courses for — copy-paste, no email, no upsell. A new one rotates in automatically each day; the whole library is open. AI the right way.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%2307060a%27/%3E%3Ctext x=%2716%27 y=%2723%27 font-family=%27Georgia,serif%27 font-size=%2720%27 fill=%27%23e8b32a%27 text-anchor=%27middle%27%3E%E2%97%8A%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://sjgant80-hub.github.io/fallskin/skin.css">
+<script type="module" src="https://sjgant80-hub.github.io/fallskin/skin.mjs"></script>
+<style>
+  .dp-prompt{position:relative;background:var(--fs-glass2);border:1px solid var(--fs-line);border-radius:var(--fs-r);
+    padding:20px 18px;font-family:var(--fs-mono);font-size:14px;line-height:1.7;white-space:pre-wrap;color:var(--fs-ink);overflow-wrap:break-word}
+  .dp-copy{position:absolute;top:12px;right:12px;font-family:var(--fs-sans);font-size:13px;font-weight:700;cursor:pointer;
+    border:0;border-radius:999px;padding:8px 16px;color:#1a1204;background:linear-gradient(135deg,var(--fs-gold2),var(--fs-gold) 60%)}
+  .dp-copy:hover{filter:brightness(1.07)} .dp-copy.done{background:var(--fs-emerald);color:#06281d}
+  .dp-why{color:var(--fs-muted);font-size:14.5px;border-left:3px solid var(--fs-gold);padding:6px 0 6px 16px;margin:16px 0 0}
+  .dp-why b{color:var(--fs-ink)}
+  details.dp-arch{background:var(--fs-glass2);border:1px solid var(--fs-line);border-radius:var(--fs-r);padding:14px 18px;margin-bottom:10px}
+  details.dp-arch summary{cursor:pointer;font-family:var(--fs-serif);font-size:16px;color:var(--fs-ink)}
+  details.dp-arch[open] summary{color:var(--fs-gold2);margin-bottom:10px}
+  details.dp-arch .u{color:var(--fs-muted);font-size:13.5px;margin:2px 0 10px}
+</style>
+</head>
+<body class="fs-body">
+<div class="fs-wrap">
+  <div class="fs-aura"></div>
+
+  <header class="fs-hero" style="padding:66px 0 24px">
+    <div class="fs-kicker">◊ THE DAILY PROMPT · AI THE RIGHT WAY</div>
+    <h1 class="fs-display">The prompt they<br>sell for <span class="fs-grad">$297</span>.<br>Free. Every day.</h1>
+    <p class="fs-lede">One genuinely useful AI <b>system prompt</b> — the kind "AI course" sellers lock behind a paywall and an email list. Here it is <b>free, copy-paste, no sign-up, no upsell</b>. A new one rotates in automatically every day, and the whole library is open below. <b>Keep your money; learn the move.</b></p>
+  </header>
+
+  <h2 class="fs-h2">Today's prompt</h2>
+  <div id="today">
+    <h3 class="fs-display" style="font-size:clamp(24px,4vw,32px);margin:0 0 4px" id="t-title">loading…</h3>
+    <p class="fs-sub" id="t-use" style="margin:0 0 14px"></p>
+    <div class="dp-prompt"><button class="dp-copy" id="t-copy">Copy</button><span id="t-system"></span></div>
+    <p class="dp-why" id="t-why"></p>
+    <p class="fs-sub" style="margin-top:14px;font-size:13px" id="t-meta"></p>
+  </div>
+
+  <h2 class="fs-h2 fs-reveal">Why this exists</h2>
+  <p class="fs-band fs-reveal">A prompt is an instruction, not a secret. The "AI whisperer" courses charge for a list of these and a feeling of being behind. We give one away daily and show you <b>why it works</b>, because the skill is the point — not the paywall. Want to learn to write your own? The free course that actually <a href="https://sjgant80-hub.github.io/falllearn/">marks what you write</a>. Ready to stop renting the AI entirely? <a href="https://www.ai-nativesolutions.com/">Own it →</a></p>
+
+  <h2 class="fs-h2 fs-reveal">The whole library</h2>
+  <p class="fs-sub fs-reveal">Every prompt, open. One is "today's"; they all work any day.</p>
+  <div id="archive"></div>
+
+  <div class="fs-foot">
+    <div class="fs-links">
+      <a href="https://sjgant80-hub.github.io/falllearn/">Learn to write your own (free)</a>
+      <a href="https://www.ai-nativesolutions.com/">Own the AI you rent</a>
+      <a href="https://github.com/sjgant80-hub/daily-prompt">Source</a>
+    </div>
+    Powered by the Konomi architecture, created by Thomas Frumkin. No email, no upsell, no estate jargon. The prompts are real; the skill is yours.
+  </div>
+</div>
+<script type="module">
+import { pickFor } from './daily.mjs';
+const $ = (s)=>document.querySelector(s);
+const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+try{
+  const data = await (await fetch('./prompts.json?cb='+Date.now())).json();
+  const prompts = data.prompts||[];
+  const today = pickFor(prompts, Date.now());
+  const p = today.prompt;
+  $('#t-title').textContent = p.title;
+  $('#t-use').textContent = p.use;
+  $('#t-system').textContent = p.system;
+  $('#t-why').innerHTML = '<b>Why it works:</b> '+esc(p.principle);
+  $('#t-meta').textContent = 'Prompt #'+(today.index+1)+' of '+prompts.length+' · a new one tomorrow · copy it, it’s yours';
+  $('#t-copy').onclick = async ()=>{ try{ await navigator.clipboard.writeText(p.system); const b=$('#t-copy'); b.textContent='Copied ✓'; b.classList.add('done'); setTimeout(()=>{b.textContent='Copy';b.classList.remove('done');},1800);}catch{ $('#t-copy').textContent='select + copy'; } };
+  // archive: all prompts, today marked
+  $('#archive').innerHTML = prompts.map((q,i)=>`<details class="dp-arch fs-reveal"${i===today.index?' open':''}><summary>${esc(q.title)}${i===today.index?' · today':''}</summary><div class="u">${esc(q.use)}</div><div class="dp-prompt"><button class="dp-copy" data-i="${i}">Copy</button>${esc(q.system)}</div><p class="dp-why"><b>Why:</b> ${esc(q.principle)}</p></details>`).join('');
+  $('#archive').addEventListener('click', async (e)=>{ const b=e.target.closest('.dp-copy'); if(!b)return; try{ await navigator.clipboard.writeText(prompts[+b.dataset.i].system); b.textContent='Copied ✓'; b.classList.add('done'); setTimeout(()=>{b.textContent='Copy';b.classList.remove('done');},1800);}catch{} });
+}catch(e){ $('#t-title').textContent='Could not load the prompts — try a refresh.'; }
+</script>
+</body>
+</html>
